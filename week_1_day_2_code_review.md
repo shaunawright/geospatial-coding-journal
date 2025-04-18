@@ -80,7 +80,7 @@ cities.forEach((loc) => {
 ## Exercise 5: Hemisphere + Size Combo (Challenge)
 
 **Submitted (initial had syntax issues)**
-
+```ts
 type City = {
     name: string;
     lat: number;
@@ -108,7 +108,7 @@ cities.forEach((loc) => {
         let loc.size: "Small"};
     console.log(`${loc.name} is a {loc.size} City in the {loc.hemi} Hemisphere.`)
 });
-
+```
 **✅ Final Working Version:**
 ```ts
 type City = {
