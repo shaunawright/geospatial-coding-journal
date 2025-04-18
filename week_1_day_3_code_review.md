@@ -60,7 +60,23 @@ SELECT name FROM cities WHERE lat < 0;
 **Initial Attempt (Issue):**
 ```sql
 -- Tried to use 'size' alias in WHERE clause, which isn't allowed.
+SELECT
+    name,
+    pop,
+    lat,
+    CASE
+        WHEN pop > 5000000 THEN 'Mega City'
+        WHEN pop >= 1000000 THEN 'Major City'
+        ELSE 'Small City'
+    END AS size,
+    CASE
+        WHEN lat > 0 THEN 'Northern'
+        WHEN lat < 0 THEN 'Southern'
+        ELSE 'Equator'
+    END AS hemi
+FROM cities WHERE size = 'Mega City' OR size = 'Major City'
 ```
+
 
 **Corrected Version (Using Subquery):**
 ```sql
@@ -88,6 +104,19 @@ WHERE size IN ('Mega City', 'Major City');
 **✅ Final version works as intended — clean use of subquery and conditional logic.**
 
 ---
+
+    SQL Order of Operations (Conceptually)
+    
+    When SQL runs a query, it processes it in this order:
+    	1.	FROM — gather the table
+    	2.	WHERE — filter rows
+    	3.	SELECT — compute column expressions (like your CASE)
+    	4.	ORDER BY, LIMIT, etc.
+    
+    So:
+    	•	When SQL hits WHERE, it hasn’t computed size yet
+    	•	size only becomes known later in SELECT
+
 
 ## Extra:
 **Visual diagram created** to explain why aliases like `size` can’t be used in `WHERE` clauses without subqueries. This reinforces understanding of SQL processing order.
